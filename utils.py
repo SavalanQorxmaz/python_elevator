@@ -6,4 +6,4 @@ users = users.json()
 
 users = [p['name'] for p in users]
 
-print(users)
+# print(users)
