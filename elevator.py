@@ -1,5 +1,3 @@
-import time
-from passenger import Passenger
 
 class Elevator:
     def __init__(self, *, floors, capacity) -> None:
