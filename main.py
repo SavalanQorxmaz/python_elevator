@@ -1,33 +1,38 @@
 import random
+import math
 import time
 from elevator import Elevator
 from passenger import Passenger
-from passengers import f_new_waiting_passenger, passengers_waiting
+from passengers import f_new_waiting_passenger, passengers_waiting, passengers_boarding, f_go_on, f_go_out, f_select_destination
 from utils import users
-elevator = Elevator(floors=12, capacity=10)
-    
+from printing import f_print_process
 
+elevator = Elevator(floors=12, capacity=10)
 
 
 if __name__ == '__main__':
+
     finish = False
+
     while not finish:  
         if len(users) > 0:
             passenger = f_new_waiting_passenger(elevator=elevator)
-            time.sleep(1)
-        
-        if len(elevator.passengers) == 0 :
-            if len(passengers_waiting) > 0:
-                current = passengers_waiting.pop(0)
-                elevator.current_floor = current.current_floor
-                elevator.add(current)
-                print(current)
-                print(elevator)
-                time.sleep(1)
-            else:
-                finish = True
+
+        if len(passengers_boarding) > 0:
+                f_go_on(elevator=elevator)
+                f_go_out(elevator=elevator)
+                finish = f_select_destination(elevator=elevator)
+                elevator.move()
         else:
-            finish = True
-             
-        time.sleep(1)
-    
+            if  elevator.destination == 0:
+                if len(passengers_waiting) > 0:
+                    elevator.destination = passengers_waiting[0].current_floor
+                else:
+                    finish = True 
+            else:
+                f_go_on(elevator=elevator)
+                elevator.move()
+         
+        
+        # print(elevator.current_floor, elevator.destination)
+        print(passengers_boarding)

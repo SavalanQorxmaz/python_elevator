@@ -4,6 +4,7 @@ class Passenger:
         self.name = name
         self.current_floor = current_floor
         self.want_to_go = want_to_go
+        self.direction = 'up' if current_floor < want_to_go else 'down'
         self._is_in_elevator = False
        
     @property 
