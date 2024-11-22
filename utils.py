@@ -1,5 +1,4 @@
 import requests
-import json
 
 users = requests.get('https://jsonplaceholder.typicode.com/users')
 users = users.json()

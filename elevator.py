@@ -7,7 +7,6 @@ class Elevator:
         self.current_floor = 1
         self._destination = 0
         self.direction = None
-        self.status = 'ready'
         self.capacity = capacity
     
     @property
@@ -29,8 +28,6 @@ class Elevator:
     
     
     def move(self):
-        # time.sleep(1)
-        # print(self.current_floor, self.destination)
         if self.direction == 'up':
             self.current_floor += 1
         elif self.direction == 'down':
