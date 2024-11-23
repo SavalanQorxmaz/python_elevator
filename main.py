@@ -3,7 +3,7 @@ import time
 import logging
 import random
 from elevator import Elevator
-from passengers import f_new_waiting_passenger, passengers_waiting, passengers_boarding, f_go_on, f_go_out, f_select_destination
+from passengers import f_new_waiting_passenger, passengers_waiting, passengers_boarding, f_go_on, f_go_out, f_select_direction, f_select_destination
 from utils import users
 from printing import f_print_process
 
@@ -36,13 +36,13 @@ if __name__ == '__main__':
                 finish = True
             else:
                 elevator.destination = first_waiting.current_floor
-                f_select_destination(elevator=elevator)
+                f_select_direction(elevator=elevator)
                 if elevator.direction is not None:
                     elevator.move()
                 else:
                     f_go_on(elevator=elevator, p=first_waiting)
                     elevator.destination = first_waiting.want_to_go
-                    f_select_destination(elevator=elevator)
+                    f_select_direction(elevator=elevator)
 
         else:
             if len(passengers_waiting) > 0:
@@ -54,8 +54,8 @@ if __name__ == '__main__':
                     f_go_out(elevator=elevator)
                     info(f'Arriwed: {p}')
             if len(passengers_boarding) > 0:
-                elevator.destination = min([dest.want_to_go for dest in passengers_boarding]) if elevator.direction == 'up' else max([dest.want_to_go for dest in passengers_boarding])
-                f_select_destination(elevator=elevator)
+                elevator.destination = f_select_destination(elevator=elevator)
+                f_select_direction(elevator=elevator)
                 elevator.move()
             else:
                 waitings_current_floor = []
@@ -66,7 +66,7 @@ if __name__ == '__main__':
                 if len(waitings_current_floor) == 1:
                     f_go_on(elevator=elevator, p=waitings_current_floor[0])
                     elevator.destination = waitings_current_floor[0].want_to_go
-                    f_select_destination(elevator=elevator)
+                    f_select_direction(elevator=elevator)
                     elevator.move()
                 elif len(waitings_current_floor) > 1:
                     ups = [*filter(lambda x: x.direction == 'up', waitings_current_floor)]  
@@ -77,9 +77,9 @@ if __name__ == '__main__':
                         [f_go_on(elevator=elevator, p=pas) for pas in ups ]  
                     else:
                         [f_go_on(elevator=elevator, p=pas) for pas in downs ] 
-                    elevator.destination = min([dest.want_to_go for dest in passengers_boarding]) if elevator.direction == 'up' else max([dest.want_to_go for dest in passengers_boarding])
-                    f_select_destination(elevator=elevator)
+                    elevator.destination = f_select_destination(elevator=elevator)
+                    f_select_direction(elevator=elevator)
                     elevator.move()
 
            
-        time.sleep(0.2) 
+        time.sleep(0.3) 

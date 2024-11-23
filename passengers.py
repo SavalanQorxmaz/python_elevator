@@ -20,18 +20,21 @@ def f_go_out(*, elevator: Elevator):
             if p.want_to_go == elevator.current_floor:
                 passengers_boarding.remove(p)
                 elevator.capacity -= 1
-        f_select_destination(elevator=elevator)
+        f_select_direction(elevator=elevator)
 
 def f_go_on(*, elevator: Elevator, p:Passenger):
         passengers_boarding.append(p)
         passengers_waiting.remove(p)
         elevator.capacity += 1
 
-def f_select_destination(*, elevator: Elevator):
+def f_select_direction(*, elevator: Elevator):
     if elevator.current_floor == elevator.destination:
           elevator.direction = None
     elif elevator.destination > elevator.current_floor:
           elevator.direction = 'up'
     else:
           elevator.direction = 'down'
+          
+def f_select_destination(*, elevator: Elevator):
+    return min([dest.want_to_go for dest in passengers_boarding]) if elevator.direction == 'up' else max([dest.want_to_go for dest in passengers_boarding])
 
