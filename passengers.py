@@ -36,5 +36,7 @@ def f_select_direction(*, elevator: Elevator):
           elevator.direction = 'down'
           
 def f_select_destination(*, elevator: Elevator):
-    return min([dest.want_to_go for dest in passengers_boarding]) if elevator.direction == 'up' else max([dest.want_to_go for dest in passengers_boarding])
+    return min([dest.want_to_go for dest in passengers_boarding]) \
+        if elevator.direction == 'up' \
+            else max([dest.want_to_go for dest in passengers_boarding])
 
