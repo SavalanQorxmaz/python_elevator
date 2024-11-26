@@ -45,6 +45,6 @@ def f_print_process(*, elevator: Elevator):
          
     os.system('cls')
     [
-        print(f'{i:2}{waiting_row(i)} {len(elevator.boardings)} {boarding_row(i):50}') 
+        print(f'{i:2}{waiting_row(i)}{boarding_row(i):50}') 
         for i in range(elevator.floors, 0, -1)
     ]
